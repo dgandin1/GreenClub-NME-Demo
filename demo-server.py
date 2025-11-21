@@ -25,17 +25,19 @@ def iot_client():
 
 # Specifications:
 # IOT device sends data to endpoint /setWeight
-#       * Listens for POST request containing the value of the weight
+#       * Listens for POST request and update db containing the value of the weight
+#       * Returns json representation of a successful POST
 # User needs weight displayed on dashboard -> endpoint /weight
 #       *Get latest weight measurement from database
 #       *Return Jinja template parameterized on weight
 # Another user needs an API endpoint to get the weight in JSON format - /getWeight
 #       * Format must be the same as supplied by the IOT device
 
-# TODO: Add /setWeight endpoint (returns nothing)
+# TODO: Add /setWeight endpoint (returns {"status": "success", "weight": weight}, 200)
 
 # TODO: Add /getWeight endpoint (returns json.dumps(obj))
 
 # TODO: Add /weight endpoint (returns render_template("index.html", weight=weight))
+@app.route("/weight", methods=["GET"])
 
 app.run()

@@ -10,11 +10,8 @@ def write_to_db(weight):
 
 # Reads most recentently recorded weight from the database
 def read_from_database():
-
     with open("db.json", "r") as file:
         return json.loads(file.read())["w"]
-
-
 
 app = Flask(__name__)
 
@@ -25,7 +22,8 @@ def iot_client():
 
 # Specifications:
 # IOT device sends data to endpoint /setWeight
-#       * Listens for POST request containing the value of the weight
+#       * Listens for POST request and update db containing the value of the weight
+#       * Returns json representation of a successful POST
 # User needs weight displayed on dashboard -> endpoint /weight
 #       *Get latest weight measurement from database
 #       *Return Jinja template parameterized on weight
@@ -40,7 +38,7 @@ def setWeight():
     #Extract value from dictionary
     weight = obj["weight"]
     write_to_db(weight)
-    return
+    return {"status": "success", "weight": weight}, 200
 
 #Add /getWeight endpoint
 @app.route("/getWeight", methods=["GET"])
@@ -51,7 +49,7 @@ def getWeight():
     #Creates new python object to be returned
     obj = {"weight": weight}
     #Response to the GET request that is returned to the endpoint
-    return json.dumps(obj)
+    return obj
 
 # Add /weight endpoint
 @app.route("/weight", methods=["GET"])

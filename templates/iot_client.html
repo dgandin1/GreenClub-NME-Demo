@@ -14,7 +14,7 @@
   <p id="status"></p>
 
   <script>
-    const endpoint = "http://localhost:5000/setWeight"; // Flask endpoint
+    const endpoint = "/setWeight"; // Flask endpoint
 
     document.getElementById("sendButton").addEventListener("click", async () => {
       const weight = Number(document.getElementById("weightInput").value);

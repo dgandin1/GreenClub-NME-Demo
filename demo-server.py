@@ -14,31 +14,28 @@ def read_from_database():
     with open("db.json", "r") as file:
         return json.loads(file.read())["w"]
 
-# Specifications:
-# IOT device sends data to endpoint /setWeight
-#       * Sends POST request containing JSON object: {"weight":xxx}
-#       * Must save the weight to an SQL database
-# User needs weight displayed on dashboard -> endpoint /weight
-#       *Get latest weight measurement from database
-#       *Display using Jinja
-# Another user needs an API endpoint to get the weight in JSON format - /getWeight
-#       * Format must be the same as supplied by the IOT device
 
 
 app = Flask(__name__)
 
+#From here, client can send POST request setWeight
+@app.route("/iot", methods=["GET"])
+def iot_client():
+    return render_template("iot_client.html")  # Served at /iot for setWeight endpoint
 
-#Add /setWeight endpoint
+# Specifications:
+# IOT device sends data to endpoint /setWeight
+#       * Listens for POST request containing the value of the weight
+# User needs weight displayed on dashboard -> endpoint /weight
+#       *Get latest weight measurement from database
+#       *Return Jinja template parameterized on weight
+# Another user needs an API endpoint to get the weight in JSON format - /getWeight
+#       * Format must be the same as supplied by the IOT device
 
+# TODO: Add /setWeight endpoint (returns nothing)
 
-#Add /getWeight endpoint
+# TODO: Add /getWeight endpoint (returns json.dumps(obj))
 
-
-# Add /weight endpoint
-
-
+# TODO: Add /weight endpoint (returns render_template("index.html", weight=weight))
 
 app.run()
-
-
-

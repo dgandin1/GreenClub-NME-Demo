@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>IoT Weight Sender</title>
+</head>
+<body>
+  <h1>Simulated IoT Device</h1>
+
+  <label for="weightInput">Weight:</label>
+  <input id="weightInput" type="number" placeholder="Enter weight in lbs" />
+  <button id="sendButton">Send to Server</button>
+
+  <p id="status"></p>
+
+  <script>
+    const endpoint = "http://localhost:5000/setWeight"; // Flask endpoint
+
+    document.getElementById("sendButton").addEventListener("click", async () => {
+      const weight = Number(document.getElementById("weightInput").value);
+
+      if (isNaN(weight)) {
+        document.getElementById("status").textContent = "Please enter a valid number!";
+        return;
+      }
+
+      try {
+        const response = await fetch(endpoint, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ weight })
+        });
+
+        if (response.ok) {
+          document.getElementById("status").textContent = `Weight ${weight} sent successfully!`;
+        } else {
+          const text = await response.text();
+          document.getElementById("status").textContent = `Error: ${text}`;
+        }
+      } catch (err) {
+        document.getElementById("status").textContent = `Network error: ${err}`;
+      }
+    });
+  </script>
+</body>
+</html>
